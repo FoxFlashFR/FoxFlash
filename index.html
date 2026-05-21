@@ -11,7 +11,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;400;600;700&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Montserrat:wght@900&family=Poppins:wght@300;400;600;700&family=VT323&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -84,18 +84,19 @@
         .logo-container:hover { transform: scale(1.03) rotate(1deg); }
         .logo-container img { width: 100%; height: auto; object-fit: contain; }
 
-        /* APPLICATION DE LA NOUVELLE POLICE SUR LE TITRE */
+        /* APPLICATION DE LA NOUVELLE POLICE ULTRA-STYLÉE SUR LE TITRE */
         .main-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5em; /* Légèrement augmenté pour l'impact */
-            font-weight: 900;
+            font-family: 'Permanent Marker', 'Montserrat', sans-serif !important;
+            font-size: 5.8em !important; /* Taille imposante style Launcher Pro */
+            font-weight: 900 !important;
             text-transform: uppercase;
-            letter-spacing: 6px; /* Espace futuriste entre les lettres */
-            background: linear-gradient(135deg, #FFFFFF 35%, var(--orange-primary) 85%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 10px 30px rgba(255, 127, 17, 0.2);
-            line-height: 1.2;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #FFFFFF 40%, var(--orange-primary) 85%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+            line-height: 1;
+            margin-top: 10px;
         }
 
         /* GRILLE TABLEAU DE BORD */
@@ -357,7 +358,7 @@
 
         @media (max-width: 1024px) {
             .dashboard-grid { grid-template-columns: 1fr; }
-            .main-title { font-size: 3.5em; letter-spacing: 3px; }
+            .main-title { font-size: 3.8em !important; letter-spacing: 2px; }
         }
     </style>
 </head>
@@ -426,7 +427,7 @@
                     <div class="panel-title"><i class="fa-solid fa-book-open"></i> À propos du projet</div>
                     <div class="description-text">
                         Plongez dans l'inconnu sur <strong>FoxFlash</strong> ! Préparez-vous à vivre une aventure de <span class="highlight-blue">survie moddée</span> pas comme les autres.<br><br>
-                        Oserez-vous affronter la nuit ? Notre monde est imprégné d'<span class="highlight-orange">horreur</span> glaçante qui mettra vos nerfs à rude épreuve. Maar ne paniquez pas : au-delà des frissons, c'est aussi une <span class="highlight-blue">aventure épique</span> remplie de mystères à découvrir, de donjons à piller, et surtout, d'un maximum de <span class="highlight-orange">fun</span> entre amis ! Équipez-vous, survivez et dominez la nature sauvage.
+                        Oserez-vous affronter la nuit ? Notre monde est imprégné d'<span class="highlight-orange">horreur</span> glaçante qui mettra vos nerfs à rude épreuve. Mais ne paniquez pas : au-delà des frissons, c'est aussi une <span class="highlight-blue">aventure épique</span> remplie de mystères à découvrir, de donjons à piller, et surtout, d'un maximum de <span class="highlight-orange">fun</span> entre amis ! Équipez-vous, survivez et dominez la nature sauvage.
                     </div>
                 </div>
 
