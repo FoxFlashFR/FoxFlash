@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoxFlash - Dashboard Officiel</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --orange-primary: #FF7F11;
+            --orange-hover: #FF9F43;
+            --turquoise-primary: #00F5D4;
+            --turquoise-hover: #01FDF6;
+            --bg-dark: rgba(20, 10, 5, 0.75);
+            --panel-bg: rgba(30, 15, 5, 0.6);
+            --border-glass: rgba(255, 127, 17, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Remplacement du dégradé orange par ton image d'arrière-plan */
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://i.ibb.co/TxHFW8QZ/image.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Dashboard Container */
+        .dashboard {
+            width: 100%;
+            max-width: 1280px;
+            background: var(--bg-dark);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), inset 0 0 40px rgba(255, 127, 11, 0.1);
+            z-index: 2;
+            position: relative;
+        }
+
+        /* HEADER */
+        .dashboard-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+            padding-bottom: 30px;
+        }
+
+        .logo-container {
+            max-width: 280px;
+            height: auto;
+            margin-bottom: 15px;
+            background: transparent;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-container:hover { transform: scale(1.03) rotate(1deg); }
+        .logo-container img { width: 100%; height: auto; object-fit: contain; }
+
+        .main-title {
+            font-size: 4.5em;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #FFFFFF 40%, var(--orange-primary) 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            line-height: 1.1;
+        }
+
+        /* GRILLE TABLEAU DE BORD */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 310px 1fr 320px;
+            gap: 25px;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .panel:hover { border-color: rgba(255, 127, 11, 0.6); }
+
+        .panel-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            color: var(--turquoise-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 10px;
+        }
+
+        /* COMPTEURS */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .counter-card {
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 4px solid var(--orange-primary);
+        }
+        .counter-card.discord { border-left-color: #5865F2; }
+        .counter-icon { font-size: 2em; color: var(--orange-primary); }
+        .counter-card.discord .counter-icon { color: #5865F2; }
+        .counter-info { display: flex; flex-direction: column; }
+        .counter-label { font-size: 0.85em; color: #b0b0b0; text-transform: uppercase; }
+        
+        .counter-number {
+            font-family: 'VT323', monospace;
+            font-size: 2.3em;
+            line-height: 1;
+            color: #fff;
+            margin-top: 2px;
+        }
+
+        /* IP Box */
+        .ip-box {
+            background: rgba(0, 0, 0, 0.55);
+            border: 2px dashed var(--turquoise-primary);
+            padding: 12px;
+            border-radius: 12px;
+            font-family: 'VT323', monospace;
+            font-size: 1.4em;
+            color: var(--turquoise-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .ip-box:hover {
+            background: var(--turquoise-primary);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 245, 212, 0.5);
+        }
+
+        /* Réseaux */
+        .socials-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .social-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.05);
+        }
+        .social-item:hover { transform: translateY(-3px); }
+        .social-item.discord { background: #5865F2; }
+        .social-item.youtube { background: #FF0000; }
+        .social-item.instagram { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+        .social-item.tiktok { background: #000000; border: 1px solid #25F4EE; }
+
+        /* CONTENU CENTRAL */
+        .center-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .description-text {
+            line-height: 1.7;
+            color: #e5e5e5;
+            text-align: justify;
+            font-size: 0.95em;
+        }
+        .highlight-orange { color: var(--orange-primary); font-weight: 600; }
+        .highlight-blue { color: var(--turquoise-primary); font-weight: 600; }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.55);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+
+        /* NOUVEAU : ZONE UPLOAD & GALERIE COMMUNAUTÉ */
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        .upload-btn-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--orange-primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .upload-btn-label:hover {
+            background: var(--orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 127, 17, 0.4);
+        }
+
+        .hidden-input {
+            display: none;
+        }
+
+        .community-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Scrollbar stylisée pour la galerie */
+        .community-gallery::-webkit-scrollbar {
+            width: 6px;
+        }
+        .community-gallery::-webkit-scrollbar-thumb {
+            background: var(--border-glass);
+            border-radius: 4px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: var(--turquoise-primary);
+            box-shadow: 0 0 12px rgba(0, 245, 212, 0.5);
+        }
+
+        /* BOUTON TÉLÉCHARGEMENT SEUL */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .download-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        .download-link {
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 16px;
+        }
+
+        .download-link img {
+            width: 100%;
+            max-width: 240px;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
+            transition: filter 0.3s ease;
+        }
+
+        /* Effet Hover pur sur l'image */
+        .download-link:hover {
+            transform: scale(1.08) translateY(-3px);
+        }
+
+        .download-link:hover img {
+            filter: drop-shadow(0 0 25px rgba(0, 245, 212, 0.6)) drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .main-title { font-size: 3em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <div class="logo-container">
+                <img src="https://i.ibb.co/qL31sqF4/Gemini-Generated-Image-rvbxurvbxurvbxur-removebg-preview.png" alt="Logo FoxFlash">
+            </div>
+            <h1 class="main-title">FoxFlash</h1>
+        </header>
+
+        <div class="dashboard-grid">
+            
+            <aside class="left-column">
+                <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-chart-simple"></i> Serveurs en direct</div>
+                    
+                    <div class="counter-card">
+                        <div class="counter-icon"><i class="fa-solid fa-cubes"></i></div>
+                        <div class="counter-info">
+                            <span class="counter-label">Joueurs Minecraft</span>
+                            <div class="counter-number" id="mc-count">En ligne...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="counter-card discord">
+                        <div class="counter-icon"><i class="fa-brands fa-discord"></i></div>
+                        <div class="counter-info">
+                            <span class="counter-label">Membres Discord</span>
+                            <div class="counter-number" id="discord-count">En ligne...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-network-wired"></i> Connexion</div>
+                    <span style="font-size: 0.85em; color: #bbb;">Clique pour copier l'IP :</span>
+                    <div class="ip-box" onclick="copyIP()" id="ipText" title="Cliquez pour copier !">
+                        foxflashfr.minecraft.party
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-share-nodes"></i> Réseaux Sociaux</div>
+                    <div class="socials-list">
+                        <a href="https://discord.gg/RQUEbnP97b" target="_blank" class="social-item discord">
+                            <i class="fa-brands fa-discord"></i> Discord
+                        </a>
+                        <a href="https://www.youtube.com/@foxflashfr" target="_blank" class="social-item youtube">
+                            <i class="fa-brands fa-youtube"></i> YouTube
+                        </a>
+                        <a href="https://www.instagram.com/fox_flash_fr/?hl=fr" target="_blank" class="social-item instagram">
+                            <i class="fa-brands fa-instagram"></i> Insta
+                        </a>
+                        <a href="https://www.tiktok.com/@foxflashfr" target="_blank" class="social-item tiktok">
+                            <i class="fa-brands fa-tiktok"></i> TikTok
+                        </a>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="center-column">
+                <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-book-open"></i> À propos du projet</div>
+                    <div class="description-text">
+                        Plongez dans l'inconnu sur <strong>FoxFlash</strong> ! Préparez-vous à vivre une aventure de <span class="highlight-blue">survie moddée</span> pas comme les autres.<br><br>
+                        Oserez-vous affronter la nuit ? Notre monde est imprégné d'<span class="highlight-orange">horreur</span> glaçante qui mettra vos nerfs à rude épreuve. Mais ne paniquez pas : au-delà des frissons, c'est aussi une <span class="highlight-blue">aventure épique</span> remplie de mystères à découvrir, de donjons à piller, et surtout, d'un maximum de <span class="highlight-orange">fun</span> entre amis ! Équipez-vous, survivez et dominez la nature sauvage.
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-images"></i> Galerie de la Communauté</div>
+                    
+                    <div class="upload-section">
+                        <span style="font-size: 0.85em; color: #bbb; text-align: center;">Partagez vos plus beaux screenshots de vos aventures !</span>
+                        <label for="imageUpload" class="upload-btn-label">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Choisir une image
+                        </label>
+                        <input type="file" id="imageUpload" class="hidden-input" accept="image/*">
+                    </div>
+
+                    <div class="community-gallery" id="galleryContainer">
+                        <div class="gallery-item">
+                            <img src="https://i.ibb.co/36a448/image.png" alt="Screenshot Communauté 1" onerror="this.src='https://images.unsplash.com/photo-1605899435973-ca2d1a8861cf?w=300'">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://i.ibb.co/36a7cd/image.png" alt="Screenshot Communauté 2" onerror="this.src='https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=300'">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://i.ibb.co/3705a1/image.png" alt="Screenshot Communauté 3" onerror="this.src='https://images.unsplash.com/photo-1587573089734-09cb69c0f2b4?w=300'">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-video"></i> Vidéo de présentation</div>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="right-column">
+                <div class="panel download-panel">
+                    <div class="panel-title"><i class="fa-solid fa-circle-down"></i> Accès au Jeu</div>
+                    
+                    <a href="FoxFlash Launcher Setup.exe" class="download-link" download>
+                        <img src="https://i.ibb.co/S4NJmdgd/Chat-GPT-Image-21-mai-2026-07-57-07.png" alt="Télécharger le Launcher">
+                    </a>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+
+    <script>
+        function copyIP() {
+            const ip = "foxflashfr.minecraft.party";
+            navigator.clipboard.writeText(ip).then(() => {
+                const ipBox = document.getElementById("ipText");
+                const originalText = ipBox.innerText;
+                ipBox.innerText = "IP Copiée !";
+                ipBox.style.color = "#FF7F11";
+                
+                setTimeout(() => {
+                    ipBox.innerText = originalText;
+                    ipBox.style.color = "#00F5D4";
+                }, 2000);
+            });
+        }
+
+        // --- GESTION DE L'UPLOAD LOCAL ET D'AJOUT À LA GALERIE ---
+        const imageUpload = document.getElementById('imageUpload');
+        const galleryContainer = document.getElementById('galleryContainer');
+
+        imageUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Création de l'élément de la galerie de manière dynamique
+                    const newItem = document.createElement('div');
+                    newItem.classList.add('gallery-item');
+                    
+                    const newImg = document.createElement('img');
+                    newImg.src = e.target.result;
+                    newImg.alt = "Image partagée par la communauté";
+                    
+                    newItem.appendChild(newImg);
+                    // Ajoute la nouvelle image au début de la galerie
+                    galleryContainer.insertBefore(newItem, galleryContainer.firstChild);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // --- COMPTEURS EN DIRECT ---
+        fetch('https://api.mcsrvstat.us/2/foxflashfr.minecraft.party')
+            .then(response => response.json())
+            .then(data => {
+                const mcCountElement = document.getElementById('mc-count');
+                if (data.online === true) {
+                    mcCountElement.innerText = data.players.online;
+                } else {
+                    mcCountElement.innerText = "OFFLINE";
+                    mcCountElement.style.color = "#ff4c4c";
+                }
+            })
+            .catch(() => { document.getElementById('mc-count').innerText = "Hors ligne"; });
+
+        fetch('https://discord.com/api/v9/invites/RQUEbnP97b?with_counts=true')
+            .then(response => response.json())
+            .then(data => {
+                const discordCountElement = document.getElementById('discord-count');
+                if (data && data.approximate_presence_count !== undefined) {
+                    discordCountElement.innerText = data.approximate_presence_count;
+                } else {
+                    discordCountElement.innerText = "Erreur";
+                }
+            })
+            .catch(() => { document.getElementById('discord-count').innerText = "Indisponible"; });
+    </script>
+</body>
+</html>
