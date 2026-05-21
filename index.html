@@ -427,29 +427,33 @@
             height: 100%;
         }
 
-        .download-link {
-            text-decoration: none;
-            display: inline-block;
+        .download-btn-wrapper {
+            background: transparent;
+            border: none;
             cursor: pointer;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-radius: 16px;
+            outline: none;
+            display: inline-block;
+            width: 100%;
         }
 
-        .download-link img {
+        .download-btn-wrapper img {
             width: 100%;
             max-width: 240px;
             height: auto;
             object-fit: contain;
             display: block;
+            margin: 0 auto;
             filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
             transition: filter 0.3s ease;
         }
 
-        .download-link:hover {
+        .download-btn-wrapper:hover {
             transform: scale(1.08) translateY(-3px);
         }
 
-        .download-link:hover img {
+        .download-btn-wrapper:hover img {
             filter: drop-shadow(0 0 25px rgba(0, 245, 212, 0.6)) drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
         }
 
@@ -570,9 +574,9 @@
                         <div class="panel-title-text"><i class="fa-solid fa-circle-down"></i> Accès au Jeu</div>
                     </div>
                     
-                    <a href="https://www.mediafire.com/file/77moz9otawalrkb/FoxFlash_Launcher_Setup.exe/file" target="_blank" class="download-link">
+                    <button onclick="triggerLauncherDownload()" class="download-btn-wrapper">
                         <img src="https://i.ibb.co/S4NJmdgd/Chat-GPT-Image-21-mai-2026-07-57-07.png" alt="Télécharger le Launcher">
-                    </a>
+                    </button>
                 </div>
             </aside>
 
@@ -585,6 +589,10 @@
     </div>
 
     <script>
+        function triggerLauncherDownload() {
+            window.location.href = "https://www.mediafire.com/file/77moz9otawalrkb/FoxFlash_Launcher_Setup.exe/file";
+        }
+
         function copyIP() {
             const ip = "foxflashfr.minecraft.party";
             navigator.clipboard.writeText(ip).then(() => {
