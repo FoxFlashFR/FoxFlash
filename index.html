@@ -145,7 +145,7 @@
         .counter-card.discord { border-left-color: #5865F2; }
         .counter-icon { font-size: 2em; color: var(--orange-primary); }
         .counter-card.discord .counter-icon { color: #5865F2; }
-        .counter-info { display: flex; flex-direction: column; }
+        .counter-info { display: flex; flex-direction: column; width: 100%; }
         .counter-label { font-size: 0.85em; color: #b0b0b0; text-transform: uppercase; }
         
         .counter-number {
@@ -377,7 +377,7 @@
                         <div class="counter-icon"><i class="fa-solid fa-cubes"></i></div>
                         <div class="counter-info">
                             <span class="counter-label">Joueurs Minecraft</span>
-                            <div class="counter-number" id="mc-count" style="font-size: 1.7em;">En ligne...</div>
+                            <div class="counter-number" id="mc-count">En ligne...</div>
                         </div>
                     </div>
                     
@@ -510,39 +510,46 @@
             }
         });
 
-        // --- COMPTEURS EN DIRECT (CORRIGÉ POUR PLAYIT.GG) ---
-        fetch('https://api.mcstatus.io/v2/status/java/foxflashfr.minecraft.party')
-            .then(response => response.json())
-            .then(data => {
-                const mcCountElement = document.getElementById('mc-count');
-                if (data.online === true) {
-                    mcCountElement.innerText = data.players.online + " / " + data.players.max;
-                    mcCountElement.style.color = "#00F5D4";
-                    mcCountElement.style.fontSize = "2.3em";
-                } else {
-                    mcCountElement.innerText = "OFFLINE";
+        // --- COMPTEURS EN DIRECT (CORRIGÉ ET AUTOMATISÉ) ---
+        function updateAllStats() {
+            // Statut Minecraft Java via mcstatus.io
+            fetch('https://api.mcstatus.io/v2/status/java/foxflashfr.minecraft.party')
+                .then(response => response.json())
+                .then(data => {
+                    const mcCountElement = document.getElementById('mc-count');
+                    if (data.online === true) {
+                        mcCountElement.innerText = data.players.online + " / " + data.players.max;
+                        mcCountElement.style.color = "var(--turquoise-primary)";
+                    } else {
+                        mcCountElement.innerText = "OFFLINE";
+                        mcCountElement.style.color = "#ff4c4c";
+                    }
+                })
+                .catch(() => { 
+                    const mcCountElement = document.getElementById('mc-count');
+                    mcCountElement.innerText = "OFFLINE"; 
                     mcCountElement.style.color = "#ff4c4c";
-                    mcCountElement.style.fontSize = "2.3em";
-                }
-            })
-            .catch(() => { 
-                const mcCountElement = document.getElementById('mc-count');
-                mcCountElement.innerText = "OFFLINE"; 
-                mcCountElement.style.color = "#ff4c4c";
-                mcCountElement.style.fontSize = "2.3em";
-            });
+                });
 
-        fetch('https://discord.com/api/v9/invites/RQUEbnP97b?with_counts=true')
-            .then(response => response.json())
-            .then(data => {
-                const discordCountElement = document.getElementById('discord-count');
-                if (data && data.approximate_presence_count !== undefined) {
-                    discordCountElement.innerText = data.approximate_presence_count;
-                } else {
-                    discordCountElement.innerText = "Erreur";
-                }
-            })
-            .catch(() => { document.getElementById('discord-count').innerText = "Indisponible"; });
+            // Statut Discord
+            fetch('https://discord.com/api/v9/invites/RQUEbnP97b?with_counts=true')
+                .then(response => response.json())
+                .then(data => {
+                    const discordCountElement = document.getElementById('discord-count');
+                    if (data && data.approximate_presence_count !== undefined) {
+                        discordCountElement.innerText = data.approximate_presence_count;
+                    } else {
+                        discordCountElement.innerText = "Erreur";
+                    }
+                })
+                .catch(() => { document.getElementById('discord-count').innerText = "Indisponible"; });
+        }
+
+        // Premier lancement immédiat au chargement
+        updateAllStats();
+
+        // Actualisation en tâche de fond automatique toutes les 30 secondes (30000ms)
+        setInterval(updateAllStats, 30000);
     </script>
 </body>
 </html>
