@@ -30,7 +30,6 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            /* Remplacement du dégradé orange par ton image d'arrière-plan */
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://i.ibb.co/TxHFW8QZ/image.png') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
@@ -236,7 +235,7 @@
             border: 0;
         }
 
-        /* NOUVEAU : ZONE UPLOAD & GALERIE COMMUNAUTÉ */
+        /* ZONE UPLOAD & GALERIE COMMUNAUTÉ */
         .upload-section {
             display: flex;
             flex-direction: column;
@@ -281,7 +280,6 @@
             padding-right: 5px;
         }
 
-        /* Scrollbar stylisée pour la galerie */
         .community-gallery::-webkit-scrollbar {
             width: 6px;
         }
@@ -345,7 +343,6 @@
             transition: filter 0.3s ease;
         }
 
-        /* Effet Hover pur sur l'image */
         .download-link:hover {
             transform: scale(1.08) translateY(-3px);
         }
@@ -380,7 +377,7 @@
                         <div class="counter-icon"><i class="fa-solid fa-cubes"></i></div>
                         <div class="counter-info">
                             <span class="counter-label">Joueurs Minecraft</span>
-                            <div class="counter-number" id="mc-count">En ligne...</div>
+                            <div class="counter-number" id="mc-count" style="font-size: 1.7em;">En ligne...</div>
                         </div>
                     </div>
                     
@@ -490,7 +487,7 @@
             });
         }
 
-        // --- GESTION DE L'UPLOAD LOCAL ET D'AJOUT À LA GALERIE ---
+        // --- GESTION DE L'UPLOAD LOCAL ---
         const imageUpload = document.getElementById('imageUpload');
         const galleryContainer = document.getElementById('galleryContainer');
 
@@ -499,7 +496,6 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    // Création de l'élément de la galerie de manière dynamique
                     const newItem = document.createElement('div');
                     newItem.classList.add('gallery-item');
                     
@@ -508,26 +504,33 @@
                     newImg.alt = "Image partagée par la communauté";
                     
                     newItem.appendChild(newImg);
-                    // Ajoute la nouvelle image au début de la galerie
                     galleryContainer.insertBefore(newItem, galleryContainer.firstChild);
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        // --- COMPTEURS EN DIRECT ---
-        fetch('https://api.mcsrvstat.us/2/foxflashfr.minecraft.party')
+        // --- COMPTEURS EN DIRECT (CORRIGÉ POUR PLAYIT.GG) ---
+        fetch('https://api.mcstatus.io/v2/status/java/foxflashfr.minecraft.party')
             .then(response => response.json())
             .then(data => {
                 const mcCountElement = document.getElementById('mc-count');
                 if (data.online === true) {
-                    mcCountElement.innerText = data.players.online;
+                    mcCountElement.innerText = data.players.online + " / " + data.players.max;
+                    mcCountElement.style.color = "#00F5D4";
+                    mcCountElement.style.fontSize = "2.3em";
                 } else {
                     mcCountElement.innerText = "OFFLINE";
                     mcCountElement.style.color = "#ff4c4c";
+                    mcCountElement.style.fontSize = "2.3em";
                 }
             })
-            .catch(() => { document.getElementById('mc-count').innerText = "Hors ligne"; });
+            .catch(() => { 
+                const mcCountElement = document.getElementById('mc-count');
+                mcCountElement.innerText = "OFFLINE"; 
+                mcCountElement.style.color = "#ff4c4c";
+                mcCountElement.style.fontSize = "2.3em";
+            });
 
         fetch('https://discord.com/api/v9/invites/RQUEbnP97b?with_counts=true')
             .then(response => response.json())
