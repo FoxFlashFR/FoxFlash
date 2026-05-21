@@ -11,7 +11,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Montserrat:wght@900&family=Poppins:wght@300;400;600;700&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,800;1,900&family=Poppins:wght@300;400;600;700&family=VT323&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -84,19 +84,20 @@
         .logo-container:hover { transform: scale(1.03) rotate(1deg); }
         .logo-container img { width: 100%; height: auto; object-fit: contain; }
 
-        /* APPLICATION DE LA NOUVELLE POLICE ULTRA-STYLÉE SUR LE TITRE */
+        /* APPLICATION DE LA NOUVELLE POLICE FLUATE & EN ITALIQUE POUR LE DYNAMISME */
         .main-title {
-            font-family: 'Permanent Marker', 'Montserrat', sans-serif !important;
-            font-size: 5.8em !important; /* Taille imposante style Launcher Pro */
+            font-family: 'Kanit', sans-serif !important;
+            font-style: italic !important;
+            font-size: 6.2em !important; /* Ajusté légèrement car les lettres rondes optimisent l'espace */
             font-weight: 900 !important;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             background: linear-gradient(135deg, #FFFFFF 40%, var(--orange-primary) 85%) !important;
             -webkit-background-clip: text !important;
             -webkit-text-fill-color: transparent !important;
-            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-            line-height: 1;
-            margin-top: 10px;
+            text-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+            line-height: 0.95;
+            margin-top: 5px;
         }
 
         /* GRILLE TABLEAU DE BORD */
@@ -358,7 +359,7 @@
 
         @media (max-width: 1024px) {
             .dashboard-grid { grid-template-columns: 1fr; }
-            .main-title { font-size: 3.8em !important; letter-spacing: 2px; }
+            .main-title { font-size: 4.2em !important; letter-spacing: 1px; }
         }
     </style>
 </head>
