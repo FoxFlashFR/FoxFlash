@@ -184,7 +184,7 @@
         }
         .ip-box:hover {
             background: var(--turquoise-primary);
-            color: #000;
+            color: #00;
             box-shadow: 0 0 20px rgba(0, 245, 212, 0.5);
         }
 
@@ -247,9 +247,7 @@
             border: 0;
         }
 
-        /* ==============================================
-           STYLISATION COMPLÈTE DE LA NOUVELLE GALERIE
-           ============================================== */
+        /* GALERIE */
         .gallery-admin-btn {
             background-color: rgba(0, 0, 0, 0.4);
             color: #888;
@@ -267,7 +265,6 @@
             border-color: var(--orange-primary);
         }
 
-        /* Zone d'ajout Admin Intégrée (masquée par défaut) */
         .gallery-admin-panel {
             display: none;
             background: rgba(0, 0, 0, 0.3);
@@ -318,7 +315,6 @@
         }
         .gallery-admin-submit:hover { background: var(--orange-hover); }
 
-        /* Grille d'affichage */
         .community-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -358,7 +354,6 @@
             display: block;
         }
 
-        /* Bouton de suppression admin */
         .gallery-delete-btn {
             position: absolute;
             top: 6px;
@@ -381,7 +376,7 @@
         }
         .gallery-delete-btn:hover { background: #ff0000; }
 
-        /* Système de Visionneuse géante (Lightbox) */
+        /* Lightbox */
         .gallery-lightbox {
             display: none;
             position: fixed;
@@ -417,7 +412,7 @@
         }
         .gallery-lightbox-close:hover { opacity: 1; }
 
-        /* TEXTE DE PRÉVENTION SMARTSCREEN WINDOWS */
+        /* TELECHARGEMENT */
         .right-column {
             display: flex;
             flex-direction: column;
@@ -572,7 +567,7 @@
                     </div>
                     
                     <div class="community-gallery" id="galleryContainer">
-                        </div>
+                    </div>
                 </div>
 
                 <div class="panel">
@@ -591,13 +586,13 @@
                         <div class="panel-title-text"><i class="fa-solid fa-circle-down"></i> Accès au Jeu</div>
                     </div>
                     
-                    <a href="FoxFlash Launcher Setup.exe" class="download-link" download>
+                    <a href="FoxFlash Launcher Setup.zip" class="download-link" download>
                         <img src="https://i.ibb.co/S4NJmdgd/Chat-GPT-Image-21-mai-2026-07-57-07.png" alt="Télécharger le Launcher">
                     </a>
 
                     <div class="windows-info-box">
-                        <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>Alerte Écran Bleu Windows ?</strong></p>
-                        <p style="margin-top: 5px; color: #aaa;">Le launcher est 100% sécurisé et sans aucun virus. Si Windows affiche un écran SmartScreen au lancement, clique simplement sur <strong>"Informations complémentaires"</strong> puis sur <strong>"Exécuter quand même"</strong>.</p>
+                        <p><i class="fa-solid fa-circle-info"></i> <strong>Comment installer le launcher ?</strong></p>
+                        <p style="margin-top: 5px; color: #aaa;">Le fichier est téléchargé sous format <strong>.zip</strong>. Une fois le téléchargement terminé, ouvre le dossier compressé, fais glisser le fichier <code>.exe</code> sur ton bureau et lance-le. (Si Windows SmartScreen s'affiche, clique sur <em>"Informations complémentaires"</em> puis <em>"Exécuter quand même"</em>).</p>
                     </div>
                 </div>
             </aside>
@@ -626,9 +621,6 @@
             });
         }
 
-        // ==============================================
-        // SCRIPT DE SÉCURISATION & REFONTE DE LA GALERIE
-        // ==============================================
         const ADMIN_CODE = "0805";
         let isAdminLoggedIn = false;
         const galleryContainer = document.getElementById('galleryContainer');
@@ -648,7 +640,6 @@
             communityPhotos.forEach((url, index) => {
                 const item = document.createElement('div');
                 item.className = 'gallery-item';
-                // Ouvre la lightbox au clic sur la carte
                 item.setAttribute('onclick', `openLightbox('${url}', event)`);
 
                 item.innerHTML = `
@@ -658,7 +649,6 @@
 
                 galleryContainer.appendChild(item);
 
-                // Maintient le bouton X affiché si on est connecté admin
                 if (isAdminLoggedIn) {
                     document.getElementById(`delBtn-${index}`).style.display = "block";
                 }
@@ -670,7 +660,6 @@
             const btn = document.getElementById('adminToggleBtn');
             
             if (isAdminLoggedIn) {
-                // Déconnexion du mode admin
                 isAdminLoggedIn = false;
                 panel.style.display = "none";
                 btn.innerText = "Espace Admin";
@@ -700,12 +689,12 @@
 
             communityPhotos.unshift(url);
             localStorage.setItem('foxflash_photos', JSON.stringify(communityPhotos));
-            input.value = ""; // Vide le champ après ajout
+            input.value = "";
             renderGallery();
         }
 
         function removeGalleryPhoto(index, event) {
-            event.stopPropagation(); // Empêche l'ouverture accidentelle de la visionneuse au clic sur la croix
+            event.stopPropagation();
             if (confirm("Voulez-vous vraiment retirer cette photo ?")) {
                 communityPhotos.splice(index, 1);
                 localStorage.setItem('foxflash_photos', JSON.stringify(communityPhotos));
@@ -713,7 +702,6 @@
             }
         }
 
-        // Fonctions pour gérer la visionneuse d'image (Lightbox)
         function openLightbox(url, event) {
             document.getElementById('lightboxImg').src = url;
             document.getElementById('lightbox').style.display = "flex";
@@ -723,11 +711,8 @@
             document.getElementById('lightbox').style.display = "none";
         }
 
-        // Lancement initial de la galerie au chargement
         renderGallery();
 
-
-        // --- COMPTEURS EN DIRECT ---
         function updateAllStats() {
             fetch('https://api.mcstatus.io/v2/status/java/foxflashfr.minecraft.party')
                 .then(response => response.json())
