@@ -71,9 +71,9 @@
         }
 
         .logo-container {
-            max-width: 280px;
+            max-width: 200px; /* Taille ajustée pour un rendu équilibré au-dessus du grand titre */
             height: auto;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background: transparent;
             transition: transform 0.3s ease;
             display: flex;
@@ -81,22 +81,22 @@
             justify-content: center;
         }
         
-        .logo-container:hover { transform: scale(1.03) rotate(1deg); }
+        .logo-container:hover { transform: scale(1.05) rotate(2deg); }
         .logo-container img { width: 100%; height: auto; object-fit: contain; }
 
         .main-title {
             font-family: 'Kanit', sans-serif !important;
             font-style: italic !important;
-            font-size: 6.2em !important;
+            font-size: 5.8em !important;
             font-weight: 900 !important;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #FFFFFF 40%, var(--orange-primary) 85%) !important;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #FFFFFF 35%, var(--orange-primary) 85%) !important;
             -webkit-background-clip: text !important;
             -webkit-text-fill-color: transparent !important;
-            text-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.6)) !important;
             line-height: 0.95;
-            margin-top: 5px;
+            margin-top: 10px;
         }
 
         /* GRILLE TABLEAU DE BORD */
