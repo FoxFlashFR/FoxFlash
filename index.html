@@ -432,7 +432,7 @@
                     <div class="panel-title"><i class="fa-solid fa-images"></i> Galerie de la Communauté</div>
                     
                     <div class="upload-section">
-                        <span style="font-size: 0.85em; color: #bbb; text-align: center;">Partagez vos plus beaux screenshots de vos avantures !</span>
+                        <span style="font-size: 0.85em; color: #bbb; text-align: center;">Partagez vos plus beaux screenshots de vos aventures !</span>
                         <label for="imageUpload" class="upload-btn-label">
                             <i class="fa-solid fa-cloud-arrow-up"></i> Choisir une image
                         </label>
@@ -489,30 +489,53 @@
             });
         }
 
-        // --- GESTION DE L'UPLOAD LOCAL ---
+        // --- ENVOI DES IMAGES VERS DISCORD WEBHOOK ---
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1506932108717850630/qD6F3X_rjSw3O22rkaSPeHYDwlj0RaGSwsgdLYcZFhdaqqULAPTb33wr0C0OMpfvEAqG";
         const imageUpload = document.getElementById('imageUpload');
         const galleryContainer = document.getElementById('galleryContainer');
 
         imageUpload.addEventListener('change', function(event) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const newItem = document.createElement('div');
-                    newItem.classList.add('gallery-item');
-                    
-                    const newImg = document.createElement('img');
-                    newImg.src = e.target.result;
-                    newImg.alt = "Image partagée par la communauté";
-                    
-                    newItem.appendChild(newImg);
-                    galleryContainer.insertBefore(newItem, galleryContainer.firstChild);
-                };
-                reader.readAsDataURL(file);
-            }
+            if (!file) return;
+
+            // 1. Affichage en local immédiat pour le joueur qui envoie
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newItem = document.createElement('div');
+                newItem.classList.add('gallery-item');
+                
+                const newImg = document.createElement('img');
+                newImg.src = e.target.result;
+                newImg.alt = "Ton image en cours de validation";
+                
+                newItem.appendChild(newImg);
+                galleryContainer.insertBefore(newItem, galleryContainer.firstChild);
+            };
+            reader.readAsDataURL(file);
+
+            // 2. Préparation et envoi du fichier vers ton Discord #Photos
+            const formData = new FormData();
+            formData.append('file', file, file.name);
+            formData.append('content', "📸 **Nouveau screenshot envoyé depuis le site FoxFlash par un joueur !**");
+
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Image envoyée avec succès sur le salon Discord ! Elle sera ajoutée définitivement au site après validation d'un admin.");
+                } else {
+                    alert("Erreur lors de l'envoi de l'image sur Discord.");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Une erreur de connexion est survenue.");
+            });
         });
 
-        // --- COMPTEURS EN DIRECT (CORRIGÉ ET AUTOMATISÉ) ---
+        // --- COMPTEURS EN DIRECT ---
         function updateAllStats() {
             // Statut Minecraft Java via mcstatus.io
             fetch('https://api.mcstatus.io/v2/status/java/foxflashfr.minecraft.party')
@@ -547,10 +570,8 @@
                 .catch(() => { document.getElementById('discord-count').innerText = "Indisponible"; });
         }
 
-        // Premier lancement immédiat au chargement
+        // Lancement immédiat au chargement puis toutes les 30 secondes
         updateAllStats();
-
-        // Actualisation en tâche de fond automatique toutes les 30 secondes (30000ms)
         setInterval(updateAllStats, 30000);
     </script>
 </body>
