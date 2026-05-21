@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FoxFlashFR Minecraft FR</title>
     
-    <link rel="icon" type="image/png" href="https://i.ibb.co/BVBNT4FB/Fox-Flash-FR-21-05-2026-removebg-preview.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/qL31sqF4/Gemini-Generated-Image-rvbxurvbxurvbxur-removebg-preview.png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -468,9 +468,9 @@
     <div class="dashboard">
         <header class="dashboard-header">
             <div class="logo-container">
-                <img src="https://i.ibb.co/BVBNT4FB/Fox-Flash-FR-21-05-2026-removebg-preview.png" alt="Logo FoxFlash">
+                <img src="https://i.ibb.co/qL31sqF4/Gemini-Generated-Image-rvbxurvbxurvbxur-removebg-preview.png" alt="Logo FoxFlash">
             </div>
-            <img src="https://i.ibb.co/BVBNT4FB/Fox-Flash-FR-21-05-2026-removebg-preview.png" alt="FoxFlashFR" class="main-title">
+            <img src="https://i.ibb.co/5WK7mc1d/Design-sans-titre-removebg-preview.png" alt="FoxFlashFR" class="main-title">
         </header>
 
         <div class="dashboard-grid">
@@ -536,7 +536,7 @@
                     </div>
                     <div class="description-text">
                         Plongez dans l'inconnu sur <strong>FoxFlash</strong> ! Préparez-vous à vivre une aventure de <span class="highlight-blue">survie moddée</span> pas comme les autres.<br><br>
-                        Oserez-vous affronter la nuit ? Notre monde est imprégné d'<span class="highlight-orange">horreur</span> glaçante qui mettvra vos nerfs à rude épreuve. Mais ne paniquez pas : au-delà des frissons, c'est aussi une <span class="highlight-blue">aventure épique</span> remplie de mystères à découvrir, de donjons à piller, et surtout, d'un maximum de <span class="highlight-orange">fun</span> entre amis ! Équipez-vous, survivez et dominez la nature sauvage.
+                        Oserez-vous affronter la nuit ? Notre monde est imprégné d'<span class="highlight-orange">horreur</span> glaçante qui mettra vos nerfs à rude épreuve. Mais ne paniquez pas : au-delà des frissons, c'est aussi une <span class="highlight-blue">aventure épique</span> remplie de mystères à découvrir, de donjons à piller, et surtout, d'un maximum de <span class="highlight-orange">fun</span> entre amis ! Équipez-vous, survivez et dominez la nature sauvage.
                     </div>
                 </div>
 
@@ -575,7 +575,7 @@
                     </div>
                     
                     <button onclick="triggerLauncherDownload()" class="download-btn-wrapper">
-                        <img src="https://i.ibb.co/BVBNT4FB/Fox-Flash-FR-21-05-2026-removebg-preview.png" alt="Télécharger le Launcher">
+                        <img src="https://i.ibb.co/S4NJmdgd/Chat-GPT-Image-21-mai-2026-07-57-07.png" alt="Télécharger le Launcher">
                     </button>
                 </div>
             </aside>
@@ -657,4 +657,83 @@
             const password = prompt("Entrez le code d'accès Administrateur :");
             if (password === ADMIN_CODE) {
                 isAdminLoggedIn = true;
-                panel.style.display =
+                panel.style.display = "block";
+                btn.innerText = "Quitter Admin";
+                renderGallery();
+            } else if (password !== null) {
+                alert("Code incorrect. Accès refusé.");
+            }
+        }
+
+        function addPhotoInline() {
+            const input = document.getElementById('adminPhotoInput');
+            const url = input.value.trim();
+
+            if (!url) {
+                alert("Veuillez entrer ou coller un lien valide !");
+                return;
+            }
+
+            communityPhotos.unshift(url);
+            localStorage.setItem('foxflash_photos', JSON.stringify(communityPhotos));
+            input.value = "";
+            renderGallery();
+        }
+
+        function removeGalleryPhoto(index, event) {
+            event.stopPropagation();
+            if (confirm("Voulez-vous vraiment retirer cette photo ?")) {
+                communityPhotos.splice(index, 1);
+                localStorage.setItem('foxflash_photos', JSON.stringify(communityPhotos));
+                renderGallery();
+            }
+        }
+
+        function openLightbox(url, event) {
+            document.getElementById('lightboxImg').src = url;
+            document.getElementById('lightbox').style.display = "flex";
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = "none";
+        }
+
+        renderGallery();
+
+        function updateAllStats() {
+            fetch('https://api.mcstatus.io/v2/status/java/foxflashfr.minecraft.party')
+                .then(response => response.json())
+                .then(data => {
+                    const mcCountElement = document.getElementById('mc-count');
+                    if (data.online === true) {
+                        mcCountElement.innerText = data.players.online + " / " + data.players.max;
+                        mcCountElement.style.color = "var(--turquoise-primary)";
+                    } else {
+                        mcCountElement.innerText = "OFFLINE";
+                        mcCountElement.style.color = "#ff4c4c";
+                    }
+                })
+                .catch(() => { 
+                    const mcCountElement = document.getElementById('mc-count');
+                    mcCountElement.innerText = "OFFLINE"; 
+                    mcCountElement.style.color = "#ff4c4c";
+                });
+
+            fetch('https://discord.com/api/v9/invites/RQUEbnP97b?with_counts=true')
+                .then(response => response.json())
+                .then(data => {
+                    const discordCountElement = document.getElementById('discord-count');
+                    if (data && data.approximate_presence_count !== undefined) {
+                        discordCountElement.innerText = data.approximate_presence_count;
+                    } else {
+                        discordCountElement.innerText = "Erreur";
+                    }
+                })
+                .catch(() => { document.getElementById('discord-count').innerText = "Indisponible"; });
+        }
+
+        updateAllStats();
+        setInterval(updateAllStats, 30000);
+    </script>
+</body>
+</html>
